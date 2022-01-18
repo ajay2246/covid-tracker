@@ -4,14 +4,11 @@ import Desc from './components/desc';
 import Details from './components/details';
 import Navbar from './components/navbar';
 import Sidebar from './components/sidebar';
-import Map from './components/map';
 
 function App() {
   const [country,setCountry] = useState("");
   const [data,setData] = useState([])
   const [search,setSearch] = useState("india");
-  const [mapCenter,setMapCenter] = useState({lat : 34.88746,lng:-40.4796})
-  const [mapZoom, setMapZoom] = useState(3);
 
   useEffect(()=>{
     fetch(`https://disease.sh/v3/covid-19/countries/${search}`)
@@ -19,8 +16,6 @@ function App() {
       return res.json();
     }).then((rest)=>{
       setData(rest)
-      setMapCenter([rest.countryInfo.lat, rest.countryInfo.long])
-      setMapZoom(4)
       console.log(rest)
     })
   },[search])
@@ -29,12 +24,13 @@ function App() {
       <div style={{marginLeft:"15px",width:"70%"}}>
         <Navbar country={country} setCountry={setCountry}  setSearch={setSearch}/>
         <Desc name={data.country} cont={data.continent}/>
-      <div style={{display:"flex",flexDirection:"row" ,justifyContent:"space-evenly",alignItems:"center"}}>
-        <Details name="Active Cases" cases={data.active}/>
-        <Details name="Recovered" cases={data.recovered} />
-        <Details name="Deaths" cases={data.deaths}/>
-      </div>
-      <Map center = {mapCenter} zoom ={mapZoom}/>
+        <div style={{display:"flex",flexDirection:"row" ,justifyContent:"space-evenly",alignItems:"center",flexWrap:"wrap"}}>
+          <Details name="Active Cases" cases={data.active}/>
+          <Details name="Recovered" cases={data.recovered} />
+          <Details name="Deaths" cases={data.deaths}/>
+          <Details name="Total Population" cases={data.population}/>
+          <Details name="Tests" cases={data.tests}/>
+        </div>
       </div>
       <Sidebar cases={data.cases}/>
     </div>

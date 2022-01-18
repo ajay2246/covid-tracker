@@ -1,8 +1,8 @@
 
 import {useState,useEffect} from'react';
-import LineGraph from './Linegraph';
 
-function Sidebar(props){
+
+function Sidebar(){
     const [data,setdata] = useState([]);
     useEffect(()=>{
         fetch("https://disease.sh/v3/covid-19/countries")
@@ -26,9 +26,6 @@ function Sidebar(props){
                     )
                 })
             }
-            </div>
-            <div style={{width:"300px",height:"200px",backgroundColor:"white",marginTop:"10px"}}>
-            <LineGraph cases={props.cases}/>
             </div>
         </div>
     )
